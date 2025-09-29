@@ -7,6 +7,7 @@ import CodeEditorComponent from "@/components/CodeEditorComponent";
 interface Props {
   task: Task;
   onNext?: () => void;
+  onComplete?: (taskId: number) => void;
 }
 
 export default function TaskDetail({ task, onNext }: Props) {
@@ -31,8 +32,12 @@ export default function TaskDetail({ task, onNext }: Props) {
           )}\nТвій результат: ${JSON.stringify(output)}`
         );
       }
-    } catch (err: any) {
-      setResult(`⚠️ ${err.name}: ${err.message}`);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setResult(`⚠️ ${err.name}: ${err.message}`);
+      } else {
+        setResult("⚠️ Сталася невідома помилка");
+      }
     }
   };
 

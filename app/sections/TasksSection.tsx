@@ -21,12 +21,22 @@ export default function TasksSection() {
     setSelectedIndex(nextIndex);
   };
 
+  const handleComplete = (taskId: number) => {
+    if (!completed.includes(taskId)) {
+      setCompleted([...completed, taskId]);
+    }
+  };
+
   return (
-    <section className="container">
+    <section className="container mx-auto p-8">
       {selectedIndex === null ? (
-        <TaskList tasks={tasks} onSelect={handleSelect} />
+        <TaskList tasks={tasks} completed={completed} onSelect={handleSelect} />
       ) : (
-        <TaskDetail task={tasks[selectedIndex]} onNext={handleNext} />
+        <TaskDetail
+          task={tasks[selectedIndex]}
+          onNext={handleNext}
+          onComplete={handleComplete}
+        />
       )}
     </section>
   );
