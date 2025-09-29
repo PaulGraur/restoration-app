@@ -5,6 +5,24 @@
   --foreground: #171717;
 }
 
+@utility container {
+  margin-inline: auto;
+  padding-inline: 16px;
+
+  @variant sm {
+    padding-inline: 20px;
+  }
+  @variant md {
+    padding-inline: 20px;
+  }
+  @variant lg {
+    padding-inline: 40px;
+  }
+  @variant xl {
+    padding-inline: 60px;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -14,8 +32,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #111827;
+    --foreground: #000000;
   }
 }
 
