@@ -130,7 +130,7 @@ export default function TaskDetailConponent({ task, onNext, onBack }: Props) {
         {onNext && <Button onClick={handleNext}>Наступна задача</Button>}
       </div>
 
-      <div className="flex justify-between gap-[20px] flex-wrap">
+      <div className="grid md:flex justify-between gap-[20px]">
         <AnimatePresence>
           {showDetail && (
             <motion.p
