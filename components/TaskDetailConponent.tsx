@@ -6,11 +6,16 @@ import Button from "@/components/ButtonComponent";
 import CodeEditorComponent from "@/components/CodeEditorComponent";
 import { motion, AnimatePresence } from "framer-motion";
 
+interface Example {
+  input: unknown;
+  output: unknown;
+}
+
 interface Props {
-  task: Task;
+  task: Task & { examples?: Example[] };
   onNext?: () => void;
-  onComplete?: (taskId: number) => void;
   onBack?: () => void;
+  onComplete?: (taskId: number) => void;
 }
 
 export default function TaskDetailConponent({ task, onNext, onBack }: Props) {
@@ -23,9 +28,19 @@ export default function TaskDetailConponent({ task, onNext, onBack }: Props) {
 
   const handleRun = () => {
     try {
-      const fn = eval(`(${code})`);
-      const input = task.testInput ?? [];
-      const output = fn(input);
+      const fn = new Function("return " + code)() as (arg: unknown) => unknown;
+      let output: unknown;
+
+      if (Array.isArray(task.testInput)) {
+        output = fn(task.testInput);
+      } else if (
+        typeof task.testInput === "object" &&
+        task.testInput !== null
+      ) {
+        output = fn(task.testInput);
+      } else {
+        output = fn(task.testInput);
+      }
 
       if (JSON.stringify(output) === JSON.stringify(task.expectedOutput)) {
         setResult("✅ Правильно!");
@@ -50,7 +65,7 @@ export default function TaskDetailConponent({ task, onNext, onBack }: Props) {
     setResult(null);
     setShowHints(false);
     setShowDetail(false);
-    if (onNext) onNext();
+    onNext?.();
   };
 
   const variants = {
@@ -75,17 +90,15 @@ export default function TaskDetailConponent({ task, onNext, onBack }: Props) {
           >
             <h3 className="font-semibold">Приклади:</h3>
             <ul className="list-disc list-inside text-gray-200">
-              {task.examples.map(
-                (ex: { input: any; output: any }, i: number) => (
-                  <li key={i}>
-                    <pre className="bg-white/5 p-2 rounded">
-                      Вхід: {JSON.stringify(ex.input)}
-                      {"\n"}
-                      Вихід: {JSON.stringify(ex.output)}
-                    </pre>
-                  </li>
-                )
-              )}
+              {task.examples.map((ex, i) => (
+                <li key={i}>
+                  <pre className="bg-white/5 p-2 rounded">
+                    Вхід: {JSON.stringify(ex.input)}
+                    {"\n"}
+                    Вихід: {JSON.stringify(ex.output)}
+                  </pre>
+                </li>
+              ))}
             </ul>
           </motion.div>
         )}
@@ -117,7 +130,7 @@ export default function TaskDetailConponent({ task, onNext, onBack }: Props) {
         {onNext && <Button onClick={handleNext}>Наступна задача</Button>}
       </div>
 
-      <div className="flex justify-between gap-[20px]">
+      <div className="flex justify-between gap-[20px] flex-wrap">
         <AnimatePresence>
           {showDetail && (
             <motion.p
@@ -125,7 +138,7 @@ export default function TaskDetailConponent({ task, onNext, onBack }: Props) {
               animate="visible"
               exit="hidden"
               variants={variants}
-              className="bg-[#1e1e1e] border-1 rounded-[20px] text-gray-100 whitespace-pre-wrap p-4 w-[100%]"
+              className="bg-[#1e1e1e] border rounded-[20px] text-gray-100 whitespace-pre-wrap p-4 w-full"
             >
               {task.detailedDescription}
             </motion.p>
@@ -139,7 +152,7 @@ export default function TaskDetailConponent({ task, onNext, onBack }: Props) {
               animate="visible"
               exit="hidden"
               variants={variants}
-              className="bg-[#1e1e1e] border-1 rounded-[20px] text-gray-100 whitespace-pre-wrap p-4 w-[100%]"
+              className="bg-[#1e1e1e] border rounded-[20px] text-gray-100 whitespace-pre-wrap p-4 w-full"
             >
               {task.hints.map((hint, i) => (
                 <li key={i}>{hint}</li>

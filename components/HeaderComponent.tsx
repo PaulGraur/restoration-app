@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import Logo from "@/image/logo.png";
 
 const navLinks = [
   { href: "/tasks", text: "Tasks" },
