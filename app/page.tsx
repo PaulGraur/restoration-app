@@ -4,8 +4,8 @@ import logo from "@/image/logo.png";
 
 export default function Home() {
   return (
-    <div className="container mx-auto p-8 space-y-12">
-      <section className="flex flex-col md:flex-row items-center gap-8 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 shadow-lg">
+    <div className="container mx-auto p-4 space-y-12">
+      <section className="flex flex-col md:flex-row items-center gap-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 shadow-lg">
         <div className="flex-1">
           <h1 className="text-4xl font-bold mb-4 text-white">
             Welcome to My App
@@ -32,11 +32,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="grid md:grid-cols-3 gap-8">
+      <section className="grid md:grid-cols-3 gap-4">
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-xl shadow hover:bg-white/20 transition"
+            className="bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-xl shadow hover:bg-white/20 transition"
           >
             <h2 className="text-xl font-semibold mb-2 text-white">
               Feature {i}
@@ -51,7 +51,7 @@ export default function Home() {
 
       <section className="space-y-6">
         <h2 className="text-2xl font-bold text-white">What people say</h2>
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-4">
           {[
             {
               text: "“This app is amazing! It helped me learn and improve my skills.”",
@@ -64,7 +64,7 @@ export default function Home() {
           ].map((item, idx) => (
             <div
               key={idx}
-              className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-xl shadow"
+              className="bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-xl shadow"
             >
               <p className="text-white/80 mb-4">{item.text}</p>
               <p className="font-semibold text-white">{`— ${item.author}`}</p>

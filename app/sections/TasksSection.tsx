@@ -28,7 +28,7 @@ export default function TasksSection() {
   };
 
   return (
-    <section className="container mx-auto p-8">
+    <section className="container mx-auto p-4">
       {selectedIndex === null ? (
         <TaskList tasks={tasks} completed={completed} onSelect={handleSelect} />
       ) : (
@@ -36,6 +36,7 @@ export default function TasksSection() {
           task={tasks[selectedIndex]}
           onNext={handleNext}
           onComplete={handleComplete}
+          onBack={() => setSelectedIndex(null)} 
         />
       )}
     </section>

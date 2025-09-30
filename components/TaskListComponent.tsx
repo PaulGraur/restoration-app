@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Task } from "@/data/tasks";
 
 interface Props {
@@ -7,13 +10,21 @@ interface Props {
 }
 
 export default function TaskList({ tasks, completed, onSelect }: Props) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null; 
+
   return (
     <ul className="space-y-3">
       {tasks.map((task) => (
         <li
           key={task.id}
           onClick={() => onSelect(task)}
-          className={` cursor-pointer rounded-xl p-4 bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition duration-200 text-white ${
+          className={`cursor-pointer rounded-xl p-4 bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition duration-200 text-white ${
             completed.includes(task.id) ? "opacity-50 line-through" : ""
           }`}
         >

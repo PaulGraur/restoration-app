@@ -9,7 +9,7 @@ interface Props {
 
 export default function CodeEditorComponent({ code, setCode }: Props) {
   return (
-    <div className="h-[500px] border rounded-[20px] overflow-hidden shadow-lg">
+    <div className="h-[400px] border rounded-[20px] overflow-hidden shadow-lg">
       <Editor
         height="100%"
         defaultLanguage="javascript"
