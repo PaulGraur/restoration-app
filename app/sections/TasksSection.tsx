@@ -33,10 +33,16 @@ export default function TasksSection() {
         <TaskList tasks={tasks} completed={completed} onSelect={handleSelect} />
       ) : (
         <TaskDetail
-          task={tasks[selectedIndex]}
+          task={{
+            ...tasks[selectedIndex],
+            examples: tasks[selectedIndex].examples?.map((ex) => ({
+              ...ex,
+              testInput: ex.input,
+            })),
+          }}
           onNext={handleNext}
           onComplete={handleComplete}
-          onBack={() => setSelectedIndex(null)} 
+          onBack={() => setSelectedIndex(null)}
         />
       )}
     </section>

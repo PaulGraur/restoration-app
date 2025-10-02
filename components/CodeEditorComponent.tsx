@@ -21,11 +21,9 @@ export default function CodeEditorComponent({ code, setCode }: Props) {
           minimap: { enabled: false },
           automaticLayout: true,
           wordWrap: "on",
-          scrollbar: {
-            vertical: "hidden",
-            horizontal: "hidden",
-          },
           roundedSelection: true,
+          scrollBeyondLastLine: false,
+          padding: { top: 16, bottom: 16 },
         }}
       />
     </div>

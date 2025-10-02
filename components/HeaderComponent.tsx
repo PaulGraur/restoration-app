@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Button from "@/components/ButtonComponent";
 
 const navLinks = [
   { href: "/tasks", text: "Tasks" },
@@ -97,6 +98,7 @@ const HeaderComponent = () => {
                 {item.text}
               </a>
             ))}
+
             <Link
               href="/login"
               className="border-[1px] border-white/20 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white px-4 py-2 rounded-md font-semibold transition duration-200"

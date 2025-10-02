@@ -2,11 +2,11 @@
 
 interface Props {
   onClick: () => void;
-  children: React.ReactNode;
+  text: React.ReactNode;
   bgColor?: string;
 }
 
-export default function TaskButton({ onClick, children, bgColor }: Props) {
+export default function TaskButton({ onClick, text, bgColor }: Props) {
   return (
     <button
       onClick={onClick}
@@ -14,7 +14,7 @@ export default function TaskButton({ onClick, children, bgColor }: Props) {
         bgColor ? bgColor : "bg-white/10"
       }`}
     >
-      {children}
+      {text}
     </button>
   );
 }

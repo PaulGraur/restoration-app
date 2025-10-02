@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 interface Example {
   input: unknown;
   output: unknown;
+  testInput: unknown;
 }
 
 interface Props {
@@ -28,19 +29,15 @@ export default function TaskDetailConponent({ task, onNext, onBack }: Props) {
 
   const handleRun = () => {
     try {
-      const fn = new Function("return " + code)() as (arg: unknown) => unknown;
-      let output: unknown;
+      const fn = new Function("return " + code)() as (
+        ...args: unknown[]
+      ) => unknown;
 
-      if (Array.isArray(task.testInput)) {
-        output = fn(task.testInput);
-      } else if (
-        typeof task.testInput === "object" &&
-        task.testInput !== null
-      ) {
-        output = fn(task.testInput);
-      } else {
-        output = fn(task.testInput);
-      }
+      const args = Array.isArray(task.testInput)
+        ? task.testInput
+        : [task.testInput];
+
+      const output = fn(...args);
 
       if (JSON.stringify(output) === JSON.stringify(task.expectedOutput)) {
         setResult("✅ Правильно!");
@@ -75,9 +72,9 @@ export default function TaskDetailConponent({ task, onNext, onBack }: Props) {
 
   return (
     <div className="mt-4 space-y-3 text-white">
-      {onBack && <Button onClick={onBack}>Повернутись до списку задач</Button>}
+      {onBack && <Button onClick={onBack} text="Повернутись до списку задач" />}
 
-      <h1 className="font-bold">{task.title}</h1>
+      <h1 className="text-[32px] text-center font-black mb-4">{task.title}</h1>
 
       <AnimatePresence>
         {task.examples && task.examples.length > 0 && (
@@ -105,29 +102,43 @@ export default function TaskDetailConponent({ task, onNext, onBack }: Props) {
       </AnimatePresence>
 
       <div className="grid lg:grid-cols-[30%_70%] gap-4">
-        <p className="bg-[#1e1e1e] border border-white/20 rounded-[20px] text-gray-100 whitespace-pre-wrap p-4">
-          {task.description}
-        </p>
+        <div className="bg-[#1e1e1e] flex flex-col justify-between border border-white/20 rounded-[20px] text-gray-100 whitespace-pre-wrap p-4">
+          <p>{task.description}</p>
+
+          <div className="bg-white text-[#1e1e1e] font-bold border-white/20 rounded-[20px] px-4 py-2">
+            {result ? (
+              <p className="whitespace-pre-wrap">{result}</p>
+            ) : (
+              "Очікуємо результат"
+            )}
+          </div>
+        </div>
+
         <CodeEditorComponent code={code} setCode={setCode} />
       </div>
 
       <div
         className={`flex gap-2 flex-wrap ${
-          showDetail || showHints ? "mb-[40px]" : ""
+          showDetail || showHints ? "mb-10" : ""
         }`}
       >
-        <Button onClick={handleRun} bgColor="bg-red-500">
-          Запустити
-        </Button>
+        <Button onClick={handleRun} bgColor="bg-red-500" text="Запустити" />
+
         {task.detailedDescription && (
-          <Button onClick={() => setShowDetail(!showDetail)}>
-            {showDetail ? "Сховати детальний опис" : "Показати детальний опис"}
-          </Button>
+          <Button
+            onClick={() => setShowDetail(!showDetail)}
+            text={
+              showDetail ? "Сховати детальний опис" : "Показати детальний опис"
+            }
+          />
         )}
-        <Button onClick={() => setShowHints(!showHints)}>
-          {showHints ? "Сховати підказки" : "Показати підказки"}
-        </Button>
-        {onNext && <Button onClick={handleNext}>Наступна задача</Button>}
+
+        <Button
+          onClick={() => setShowHints(!showHints)}
+          text={showHints ? "Сховати підказки" : "Показати підказки"}
+        />
+
+        {onNext && <Button onClick={handleNext} text="Наступна задача" />}
       </div>
 
       <div className="grid md:flex justify-between gap-[20px]">
@@ -161,8 +172,6 @@ export default function TaskDetailConponent({ task, onNext, onBack }: Props) {
           )}
         </AnimatePresence>
       </div>
-
-      {result && <div className="mt-2 whitespace-pre-wrap">{result}</div>}
     </div>
   );
 }
