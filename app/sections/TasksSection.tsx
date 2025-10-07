@@ -28,7 +28,7 @@ export default function TasksSection() {
   };
 
   return (
-    <section className="container mx-auto p-4">
+    <section className="container bg-white rounded-[48px] py-[60px]">
       {selectedIndex === null ? (
         <TaskList tasks={tasks} completed={completed} onSelect={handleSelect} />
       ) : (
